@@ -26,14 +26,8 @@ var AccountSchema = new Schema({
         required: true,
         unique: true
     },
-    address: {
-        type: String,
-        unique: true
-    },
-    website: {
-        type: String,
-        unique: true
-    },
+    address: String,
+    website: String,
     status: Number,
     user_groups: [{ name: String, permissions: String, user_ids: String }],
     settings: String,

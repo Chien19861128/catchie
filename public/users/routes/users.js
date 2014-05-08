@@ -75,14 +75,14 @@ angular.module('mean.users').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('edit user', {
-                url: '/users/:userId/edit',
+                url: '/users/:username/edit',
                 templateUrl: 'public/users/views/edit.html',
                 resolve: {
                     loggedin: checkLoggedin
                 }
             })
-            .state('user by id', {
-                url: '/users/:userId',
+            .state('user by username', {
+                url: '/users/:username',
                 templateUrl: 'public/users/views/view.html',
                 resolve: {
                     loggedin: checkLoggedin

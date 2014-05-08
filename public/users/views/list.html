@@ -5,8 +5,8 @@
 			<span>{{user.username}}</span>
 			<span>{{user.email}}</span>
 			
-      <div data-ng-show="global.user.name == 'Admin' || global.user._id == article.user._id">
-          <a class="btn" href="/#!/users/{{user._id}}/edit">
+      <div data-ng-show="global.user.name == 'Admin' || global.user._id == user._id">
+          <a class="btn" href="/#!/users/{{user.username}}/edit">
         	    <i class="glyphicon glyphicon-edit"></i>
           </a>
           <a class="btn" data-ng-click="remove();">

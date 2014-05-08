@@ -4,16 +4,26 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
     $scope.global = Global;
 
     $scope.create = function() {
+    	console.log('[this.username]'+this.username);
         var user = new Users({
-            title: this.title,
-            content: this.content
+            email: this.email,
+            password: this.password,
+            confirmPassword: this.confirmPassword,
+            username: this.username,
+            name: this.name
         });
+    	console.log('[user]'+user);
         user.$save(function(response) {
-            $location.path('users/' + response._id);
+    	console.log('[response]'+response);
+            $location.path('users/' + response.username);
+            //$location.path('users/');
         });
 
-        this.title = '';
-        this.content = '';
+        this.email = '';
+        this.password = '';
+        this.confirmPassword = '';
+        this.username = '';
+        this.name = '';
     };
 
     $scope.remove = function(user) {
@@ -28,7 +38,7 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
         }
         else {
             $scope.user.$remove();
-            $location.path('articles');
+            $location.path('users');
         }
     };
 
@@ -46,14 +56,19 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
 
     $scope.find = function() {
         Users.query(function(users) {
+		    console.log('[users]' + users);
             $scope.users = users;
         });
     };
 
     $scope.findOne = function() {
+	    console.log('[$stateParams.email]' + $stateParams.email);
+	    console.log('[$stateParams.username]' + $stateParams.username);
+	    console.log('[$stateParams]' + $stateParams);
         Users.get({
             userId: $stateParams.userId
         }, function(user) {
+	    console.log('[user.username]' + user.username);
             $scope.user = user;
         });
     };

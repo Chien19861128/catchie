@@ -20,10 +20,10 @@ module.exports = function(app, passport) {
     // Setting up the accounts api
     app.post('/register', accounts.create);
     
-    app.put('/accounts/:accountId', authorization.requiresLogin, accounts.update);
+    app.put('/accounts/:accountName', authorization.requiresLogin, accounts.update);
 
     // Setting up the accountId param
-    app.param('accountId', accounts.account);
+    app.param('accountName', accounts.account);
 
     // AngularJS route to check for authentication
     //app.get('/loggedin', function(req, res) {

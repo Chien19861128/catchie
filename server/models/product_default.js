@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
  * Product Default Schema
  */
 var ProductDefaultSchema = new Schema({	
-    account: {
+    _account: {
         type: Schema.ObjectId,
         ref: 'Account'
     },

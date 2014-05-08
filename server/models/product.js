@@ -11,13 +11,9 @@ var mongoose = require('mongoose'),
  * Product Schema
  */
 var ProductSchema = new Schema({	
-    account: {
+    _account: {
         type: Schema.ObjectId,
         ref: 'Account'
-    },
-    product_default: {
-        type: Schema.ObjectId,
-        ref: 'ProductDefault'
     },
     simple: {
         type: String,
@@ -63,15 +59,15 @@ var ProductSchema = new Schema({
 /**
  * Validations
  */
-ProductSchema.path('sku').validate(function(sku) {
+ProductSchema.path('simple').validate(function(sku) {
     return sku.length;
-}, 'Sku cannot be blank');
+}, 'Simple cannot be blank');
 
 ProductSchema.path('name').validate(function(name) {
     return name.length;
 }, 'Name cannot be blank');
 
-ProductDefaultSchema.path('category').validate(function(category) {
+ProductSchema.path('category').validate(function(category) {
     return category.length;
 }, 'Category cannot be blank');
 

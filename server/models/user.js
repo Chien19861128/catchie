@@ -11,10 +11,10 @@ var mongoose = require('mongoose'),
  * User Schema
  */
 var UserSchema = new Schema({
-    account: {
+    _account: {
         type: Schema.ObjectId,
         ref: 'Account'
-    },
+    ,
     name: {
         type: String,
         required: true
@@ -22,6 +22,7 @@ var UserSchema = new Schema({
     email: String,
     username: {
         type: String,
+        required: true,
         unique: true
     },
     roles: [{

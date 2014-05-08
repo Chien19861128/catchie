@@ -1,7 +1,7 @@
 'use strict';
 
 //Setting up route
-angular.module('mean.articles').config(['$stateProvider', '$urlRouterProvider',
+angular.module('mean.products').config(['$stateProvider', '$urlRouterProvider',
     function($stateProvider, $urlRouterProvider) {
 
         //================================================
@@ -60,30 +60,30 @@ angular.module('mean.articles').config(['$stateProvider', '$urlRouterProvider',
 
         // states for my app
         $stateProvider
-            .state('all articles', {
-                url: '/articles',
-                templateUrl: 'public/articles/views/list.html',
+            .state('all products', {
+                url: '/products',
+                templateUrl: 'public/products/views/list.html',
                 resolve: {
                     loggedin: checkLoggedin
                 }
             })
-            .state('create article', {
-                url: '/articles/create',
-                templateUrl: 'public/articles/views/create.html',
+            .state('create product', {
+                url: '/products/create',
+                templateUrl: 'public/products/views/create.html',
                 resolve: {
                     loggedin: checkLoggedin
                 }
             })
-            .state('edit article', {
-                url: '/articles/:articleId/edit',
-                templateUrl: 'public/articles/views/edit.html',
+            .state('edit product', {
+                url: '/products/:productId/edit',
+                templateUrl: 'public/products/views/edit.html',
                 resolve: {
                     loggedin: checkLoggedin
                 }
             })
-            .state('article by id', {
-                url: '/articles/:articleId',
-                templateUrl: 'public/articles/views/view.html',
+            .state('product by id', {
+                url: '/products/:productId',
+                templateUrl: 'public/products/views/view.html',
                 resolve: {
                     loggedin: checkLoggedin
                 }

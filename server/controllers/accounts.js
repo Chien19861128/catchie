@@ -46,7 +46,7 @@ exports.session = function(req, res) {
 exports.create = function(req, res, next) {
 	  var account_fields = {
 	  	  name: req.body.name,
-	  	  phone: 123456789,
+	  	  phone: req.body.phone,
 	  	  email: req.body.email,
 	  	  status: 2
 	  };
@@ -78,6 +78,7 @@ exports.create = function(req, res, next) {
     //user.roles = ['authenticated'];
     account.save(function(err) {
         if (err) {
+        	  console.log('[account err]' + err);
             switch (err.code) {
                 case 11000:
                 case 11001:
@@ -89,7 +90,7 @@ exports.create = function(req, res, next) {
 
             return res.status(400);
         }
-        user.account = account;
+        user._account = account;
         
         //req.logIn(user, function(err) {
         //    if (err) return next(err);
@@ -98,6 +99,7 @@ exports.create = function(req, res, next) {
         //res.status(200);
         user.save(function(err) {
             if (err) {
+            	  console.log('[user err]' + err);
                 switch (err.code) {
                     case 11000:
                     case 11001:
@@ -137,7 +139,7 @@ exports.update = function(req, res) {
 	  	  email: req.body.email
 	  };
 	  
-    var account = req.account;
+    var account = req._account;
     var user = req.user;
     console.log('account1--'+account);
     account = _.extend(account, account_fields);
@@ -152,6 +154,7 @@ exports.update = function(req, res) {
                 if (err) {
                     return res.status(400);
                 } else {
+			        account._id = account.name;
                     res.jsonp(account);
                 }
             });
@@ -173,22 +176,23 @@ exports.me = function(req, res) {
                     status: 500
                 });
             } else {
+			    account._id = account.name;
                 res.jsonp(account);
             }
         });
 };
 
 /**
- * Find account by id
+ * Find account by name
  */
-exports.account = function(req, res, next, id) {
+exports.account = function(req, res, next, name) {
     Account
         .findOne({
-            _id: id
+            name: name
         })
         .exec(function(err, account) {
             if (err) return next(err);
-            if (!account) return next(new Error('Failed to load Account ' + id));
+            if (!account) return next(new Error('Failed to load Account ' + name));
             req.account = account;
             next();
         });

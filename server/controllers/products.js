@@ -11,13 +11,24 @@ var mongoose = require('mongoose'),
 /**
  * Find product by id
  */
-exports.product = function(req, res, next, id) {
-    Product.load(id, function(err, product) {
+exports.product = function(req, res, next, accountName, productSku, productSimple) {
+    var simple = accountName + '-' + productSku + '-' + productSimple;
+    Product
+        .findOne({
+            simple: simple
+        })
+        .exec(function(err, product) {
+            if (err) return next(err);
+            if (!user) return next(new Error('Failed to load Product ' + simple));
+			req.product = product;
+            next();
+        });
+    /*Product.load(id, function(err, product) {
         if (err) return next(err);
         if (!product) return next(new Error('Failed to load product ' + id));
         req.product = product;
         next();
-    });
+    });*/
 };
 
 /**
@@ -25,7 +36,7 @@ exports.product = function(req, res, next, id) {
  */
 exports.create = function(req, res) {
     var product = new Product(req.body);
-    product.user = req.user;
+    product._account = req.user._account;
 
     product.save(function(err) {
         if (err) {
@@ -88,7 +99,7 @@ exports.show = function(req, res) {
  * List of Products
  */
 exports.all = function(req, res) {
-    Product.find().sort('-simple').exec(function(err, products) {
+    Product.find({is_discoverable:true}).sort('-simple').exec(function(err, products) {
         if (err) {
             res.render('error', {
                 status: 500
@@ -97,4 +108,42 @@ exports.all = function(req, res) {
             res.jsonp(products);
         }
     });
+};
+
+/**
+ * List of Products of a Vendor
+ */
+exports.accountAll = function(req, res) {
+    Product//accountName
+        .find({
+		    simple: { $regex: '/^' + accountName + '/' },
+            is_discoverable:true
+        }).sort('-simple').exec(function(err, products) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                res.jsonp(products);
+            }
+        });
+};
+
+/**
+ * List of Products of a Sku
+ */
+exports.skuAll = function(req, res) {
+    Product//accountName
+        .find({
+		    simple: { $regex: '/^' + accountName + '-' + productSku + '/' },
+            is_discoverable:true
+        }).sort('-simple').exec(function(err, products) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+                res.jsonp(products);
+            }
+        });
 };

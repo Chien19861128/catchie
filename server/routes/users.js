@@ -17,14 +17,14 @@ module.exports = function(app, passport) {
     app.get('/logout', users.signout);
     app.get('/users/me', users.me);
     app.get('/users', authorization.requiresLogin, users.all);
-    app.get('/users/:userId', authorization.requiresLogin, users.show);
-    app.put('/users/:userId', authorization.requiresLogin, hasAuthorization, users.update);
+    app.get('/users/:username', authorization.requiresLogin, users.show);
+    app.put('/users/:username', authorization.requiresLogin, hasAuthorization, users.update);
 
     // Setting up the users api
     app.post('/users', authorization.requiresLogin, hasAuthorization, users.create);
 
-    // Setting up the userId param
-    app.param('userId', users.user);
+    // Setting up the username param
+    app.param('username', users.user);
 
     // AngularJS route to check for authentication
     app.get('/loggedin', function(req, res) {

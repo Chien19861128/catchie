@@ -45,7 +45,7 @@ exports.session = function(req, res) {
 exports.create = function(req, res, next) {
     var user = new User(req.body);
 
-    user.account = req.user.account;
+    user._account = req.user._account;
     user.provider = 'local';
 
     // because we set our user.provider to local our models/user.js validation will always be true
@@ -56,12 +56,14 @@ exports.create = function(req, res, next) {
 
     var errors = req.validationErrors();
     if (errors) {
+    	  console.log(errors);
         return res.status(400).send(errors);
     }
 
     // Hard coded for now. Will address this with the user permissions system in v0.3.5
     user.roles = ['authenticated'];
     user.save(function(err) {
+    	  console.log(err);
         if (err) {
             switch (err.code) {
                 case 11000:
@@ -74,11 +76,8 @@ exports.create = function(req, res, next) {
 
             return res.status(400);
         }
-        req.logIn(user, function(err) {
-            if (err) return next(err);
-            return res.redirect('/');
-        });
-        res.status(200);
+        //res.status(200);
+		res.jsonp(user);
     });
 };
 
@@ -111,17 +110,18 @@ exports.me = function(req, res) {
 };
 
 /**
- * Find user by id
+ * Find user by username
  */
-exports.user = function(req, res, next, id) {
+exports.user = function(req, res, next, username) {
     User
         .findOne({
-            _id: id
+            username: username
         })
         .exec(function(err, user) {
             if (err) return next(err);
-            if (!user) return next(new Error('Failed to load User ' + id));
+            if (!user) return next(new Error('Failed to load User ' + username));
             req.profile = user;
+			req.user = user;
             next();
         });
 };
@@ -139,7 +139,7 @@ exports.show = function(req, res) {
 exports.all = function(req, res) {
     User
         .find({
-    	      account: req.user.account
+    	      _account: req.user._account
     	  }).sort('name')
     	  .exec(function(err, users) {
             if (err) {
