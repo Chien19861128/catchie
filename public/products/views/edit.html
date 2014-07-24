@@ -1,17 +1,73 @@
-<section data-ng-controller="ArticlesController" data-ng-init="findOne()">
+<section data-ng-controller="ProductsController" data-ng-init="findOne()">
 	<form class="form-horizontal col-md-6" role="form" data-ng-submit="update()">
 		<div class="form-group">
-			<label mean-token="'edit-title'" for="title" class="col-md-2 control-label">Title</label>
+			<label mean-token="'edit-simple'" class="col-md-2 control-label">Simple</label>
 			<div class="col-md-10">
-				<input type="text" class="form-control" data-ng-model="article.title" id="title" placeholder="Title" required>
+				<input type="text" class="form-control" data-ng-model="product.simple" id="simple" placeholder="Simple" required>
 			</div>
 		</div>
 		<div class="form-group">
-			<label mean-token="'edit-content'" for="content" class="col-md-2 control-label">Content</label>
+			<label mean-token="'edit-name'" class="col-md-2 control-label">Name</label>
 			<div class="col-md-10">
-				<textarea data-ng-model="article.content" id="content" cols="30" rows="10" placeholder="Content" class="form-control" required></textarea>
+				<input type="text" class="form-control" data-ng-model="product.name" id="name" placeholder="Name" required>
 			</div>
 		</div>
+		<div class="form-group">
+			<label mean-token="'edit-category'" class="col-md-2 control-label">Category</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.category" id="category" placeholder="Category" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label mean-token="'edit-currency'" class="col-md-2 control-label">Currency</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.currency" id="currency" placeholder="Currency" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label mean-token="'edit-original_price'" class="col-md-2 control-label">Original Price</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.original_price" id="original_price" placeholder="Original Price" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label mean-token="'edit-special_price'" class="col-md-2 control-label">Special Price</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.special_price" id="special_price" placeholder="Special Price">
+			</div>
+		</div>
+		<div class="form-group">
+			<label mean-token="'edit-price'" class="col-md-2 control-label">Price</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.price" id="price" placeholder="Price" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label mean-token="'edit-description'" class="col-md-2 control-label">Description</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.description" id="description" placeholder="Description">
+			</div>
+		</div>
+		<div class="form-group">
+			<label mean-token="'edit-is_show_price'" class="col-md-2 control-label">Is Show Price</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.is_show_price" id="is_show_price" placeholder="Is Show Price" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label mean-token="'edit-is_discoverable'" class="col-md-2 control-label">Is Discoverable</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.is_discoverable" id="is_discoverable" placeholder="Is Discoverable" required>
+			</div>
+		</div>
+		<div class="form-group">
+			<label mean-token="'edit-custom_fields'" class="col-md-2 control-label">Custom Fields</label>
+			<div class="col-md-10">
+				<input type="text" class="form-control" data-ng-model="product.custom_fields" id="title" placeholder="Custom Fields">
+			</div>
+		</div>
+		
+		
 		<div class="form-group">
 			<div class="col-md-offset-2 col-md-10">
 				<button mean-token="'edit-submit'" type="submit" class="btn btn-default">Submit</button>

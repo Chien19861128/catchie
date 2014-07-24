@@ -66,7 +66,7 @@ angular.module('mean.users').controller('UsersController', ['$scope', '$statePar
 	    console.log('[$stateParams.username]' + $stateParams.username);
 	    console.log('[$stateParams]' + $stateParams);
         Users.get({
-            userId: $stateParams.userId
+            username: $stateParams.username
         }, function(user) {
 	    console.log('[user.username]' + user.username);
             $scope.user = user;

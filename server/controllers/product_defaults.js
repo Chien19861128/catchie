@@ -11,7 +11,7 @@ var mongoose = require('mongoose'),
 /**
  * Find product default by id
  */
-exports.productDefault = function(req, res, , accountName, productSku) {
+exports.productDefault = function(req, res, next, accountName, productSku) {
     var sku = accountName + '-' + productSku;
     ProductDefault
         .findOne({
@@ -19,7 +19,7 @@ exports.productDefault = function(req, res, , accountName, productSku) {
         })
         .exec(function(err, productDefault) {
             if (err) return next(err);
-            if (!user) return next(new Error('Failed to load Product Default ' + sku));
+            if (!productDefault) return next(new Error('Failed to load Product Default ' + sku));
 			req.productDefault = productDefault;
             next();
         });

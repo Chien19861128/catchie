@@ -9,7 +9,7 @@ angular.module('mean.accounts').controller('AccountsController', ['$scope', '$st
             content: this.content
         });
         accounts.$save(function(response) {
-            $location.path('accounts/' + response._id);
+            $location.path('accounts/' + response.name);
         });
 
         this.title = '';
@@ -40,7 +40,7 @@ angular.module('mean.accounts').controller('AccountsController', ['$scope', '$st
         account.updated.push(new Date().getTime());
 
         account.$update(function() {
-            $location.path('accounts/' + account._id);
+            $location.path('accounts/' + account.name);
         });
     };
 
@@ -52,7 +52,7 @@ angular.module('mean.accounts').controller('AccountsController', ['$scope', '$st
 
     $scope.findOne = function() {
         Accounts.get({
-            accountId: $stateParams.accountId
+            name: $stateParams.name
         }, function(account) {
             $scope.account = account;
         });
@@ -60,7 +60,7 @@ angular.module('mean.accounts').controller('AccountsController', ['$scope', '$st
 
     $scope.findMe = function() {
         Accounts.get({
-            accountId: 'me'
+            name: 'me'
         }, function(account) {
             $scope.account = account;
         });

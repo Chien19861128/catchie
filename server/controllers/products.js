@@ -5,6 +5,7 @@
  */
 var mongoose = require('mongoose'),
     Product = mongoose.model('Product'),
+    Account = mongoose.model('Account'),
     _ = require('lodash');
 
 
@@ -19,7 +20,7 @@ exports.product = function(req, res, next, accountName, productSku, productSimpl
         })
         .exec(function(err, product) {
             if (err) return next(err);
-            if (!user) return next(new Error('Failed to load Product ' + simple));
+            if (!product) return next(new Error('Failed to load Product ' + simple));
 			req.product = product;
             next();
         });
@@ -32,22 +33,40 @@ exports.product = function(req, res, next, accountName, productSku, productSimpl
 };
 
 /**
- * Create an product
+ * Create a product
  */
 exports.create = function(req, res) {
     var product = new Product(req.body);
     product._account = req.user._account;
 
-    product.save(function(err) {
-        if (err) {
-            return res.send('users/signup', {
-                errors: err.errors,
-                product: product
-            });
-        } else {
-            res.jsonp(product);
-        }
-    });
+	Account
+        .findOne({
+		    _id: req.user._account,
+        }).exec(function(err, account) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+			    var simpleSplit = req.body.simple.split("-");
+                if (account.name == simpleSplit[0] && simpleSplit.length==3) {
+				    product.save(function(err) {
+                        if (err) {
+                            return res.send('users/signup', {
+                                errors: err.errors,
+                                product: product
+                            });
+                        } else {
+                            res.jsonp(product);
+                        }
+                    });
+				} else {
+                    res.render('error', {
+                        status: 500
+                    });
+				}
+            }
+        });
 };
 
 /**
@@ -92,33 +111,20 @@ exports.destroy = function(req, res) {
  * Show an product
  */
 exports.show = function(req, res) {
+    console.log('[show][accountName] ' + accountName);
     res.jsonp(req.product);
 };
 
 /**
- * List of Products
+ * List of all discoverable Products
  */
 exports.all = function(req, res) {
-    Product.find({is_discoverable:true}).sort('-simple').exec(function(err, products) {
-        if (err) {
-            res.render('error', {
-                status: 500
-            });
-        } else {
-            res.jsonp(products);
-        }
-    });
-};
-
-/**
- * List of Products of a Vendor
- */
-exports.accountAll = function(req, res) {
-    Product//accountName
-        .find({
-		    simple: { $regex: '/^' + accountName + '/' },
-            is_discoverable:true
-        }).sort('-simple').exec(function(err, products) {
+    console.log('[req.user._account]' + req.user._account);
+    Product
+	    .find({
+		    is_discoverable:true,
+			_account: {$ne: req.user._account}
+		}).sort('-simple').exec(function(err, products) {
             if (err) {
                 res.render('error', {
                     status: 500
@@ -130,20 +136,76 @@ exports.accountAll = function(req, res) {
 };
 
 /**
- * List of Products of a Sku
+ * List of own Products
  */
-exports.skuAll = function(req, res) {
-    Product//accountName
-        .find({
-		    simple: { $regex: '/^' + accountName + '-' + productSku + '/' },
-            is_discoverable:true
-        }).sort('-simple').exec(function(err, products) {
+exports.me = function(req, res) {
+    console.log('[req.user._account]' + req.user._account);
+    Product
+	    .find({
+			_account: req.user._account
+		}).sort('-simple').exec(function(err, products) {
             if (err) {
                 res.render('error', {
                     status: 500
                 });
             } else {
                 res.jsonp(products);
+            }
+        });
+};
+
+/**
+ * List of Products of a Vendor
+ */
+exports.accountAll = function(req, res) {
+    console.log('[accountAll][accountName] ' + req.params.productSimple);
+	
+	Account
+        .findOne({
+		    _id: req.user._account,
+        }).exec(function(err, account) {
+            if (err) {
+                res.render('error', {
+                    status: 500
+                });
+            } else {
+			    var queryString;
+				
+			    var simpleSplit = req.params.productSimple.split("-");
+                if (account.name == simpleSplit[0]) {
+				    queryString = {
+		                              simple: new RegExp('^'+req.params.productSimple),
+                                      is_discoverable: true
+                                  };
+				} else {
+				    queryString = {
+		                              simple: new RegExp('^'+req.params.productSimple)
+                                  };
+				}
+				
+				if (simpleSplit.length==3) {
+                    Product
+                        .findOne(queryString).sort('-simple').exec(function(err, product) {
+                            if (err) {
+                                res.render('error', {
+                                    status: 500
+                                });
+                            } else {
+                                res.jsonp(product);
+                            }
+                        });
+				} else {
+                    Product
+                        .find(queryString).sort('-simple').exec(function(err, products) {
+                            if (err) {
+                                res.render('error', {
+                                    status: 500
+                                });
+                            } else {
+                                res.jsonp(products);
+                            }
+                        });
+				}
             }
         });
 };

@@ -61,7 +61,7 @@ angular.module('mean.products').config(['$stateProvider', '$urlRouterProvider',
         // states for my app
         $stateProvider
             .state('all products', {
-                url: '/products',
+                url: '/products/me',
                 templateUrl: 'public/products/views/list.html',
                 resolve: {
                     loggedin: checkLoggedin
@@ -75,15 +75,22 @@ angular.module('mean.products').config(['$stateProvider', '$urlRouterProvider',
                 }
             })
             .state('edit product', {
-                url: '/products/:productId/edit',
+                url: '/products/:simple/edit',
                 templateUrl: 'public/products/views/edit.html',
                 resolve: {
                     loggedin: checkLoggedin
                 }
             })
             .state('product by id', {
-                url: '/products/:productId',
+                url: '/products/:simple',
                 templateUrl: 'public/products/views/view.html',
+                resolve: {
+                    loggedin: checkLoggedin
+                }
+            })
+            .state('discover', {
+                url: '/discover',
+                templateUrl: 'public/products/views/discover-list.html',
                 resolve: {
                     loggedin: checkLoggedin
                 }

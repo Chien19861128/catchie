@@ -1,6 +1,6 @@
 'use strict';
 
-angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles', function ($scope, $stateParams, $location, Global, Articles) {
+angular.module('mean.articles').controller('ArticlesController', ['$scope', '$stateParams', '$location', 'Global', 'Articles', 'AuthService', function ($scope, $stateParams, $location, Global, Articles, AuthService) {
     $scope.global = Global;
 
     $scope.create = function() {
@@ -45,6 +45,7 @@ angular.module('mean.articles').controller('ArticlesController', ['$scope', '$st
     };
 
     $scope.find = function() {
+	    console.log('[test]'+AuthService.getCurrentUser());
         Articles.query(function(articles) {
             $scope.articles = articles;
         });

@@ -14,7 +14,7 @@ var UserSchema = new Schema({
     _account: {
         type: Schema.ObjectId,
         ref: 'Account'
-    ,
+    },
     name: {
         type: String,
         required: true

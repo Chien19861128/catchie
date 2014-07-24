@@ -154,7 +154,6 @@ exports.update = function(req, res) {
                 if (err) {
                     return res.status(400);
                 } else {
-			        account._id = account.name;
                     res.jsonp(account);
                 }
             });
@@ -166,9 +165,14 @@ exports.update = function(req, res) {
  * Send Account
  */
 exports.me = function(req, res) {
+    
+    console.log('[user]'+req.user);
+    console.log('[account]'+req.user._account);
+    //console.log('[_account]'+req.user.account);
+    console.log('[name]'+req.user.name);
     Account
         .findOne({
-            _id: req.user.account
+            _id: req.user._account
         })
         .exec(function(err, account) {
             if (err) {
@@ -176,7 +180,6 @@ exports.me = function(req, res) {
                     status: 500
                 });
             } else {
-			    account._id = account.name;
                 res.jsonp(account);
             }
         });

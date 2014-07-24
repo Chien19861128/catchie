@@ -2,7 +2,7 @@
 
 //Accounts service used for accounts REST endpoint
 angular.module('mean.accounts').factory('Accounts', ['$resource', function($resource) {
-    return $resource('accounts/:accountId', {
+    return $resource('accounts/:name', {
         accountId: '@_id',
         name: '@name',
         phone: '@phone',

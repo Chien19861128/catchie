@@ -1,7 +1,7 @@
 'use strict';
 
 angular.module('mean.controllers.login', [])
-    .controller('LoginCtrl', ['$scope','$rootScope','$http','$location', function($scope, $rootScope, $http, $location) {
+    .controller('LoginCtrl', ['$scope','$rootScope','$http','$location', 'AuthService', function($scope, $rootScope, $http, $location, AuthService) {
         // This object will be filled by the form
         $scope.user = {};
 
@@ -15,6 +15,7 @@ angular.module('mean.controllers.login', [])
                     // authentication OK
                     $scope.loginError = 0;
                     $rootScope.user = user;
+					AuthService.setCurrentUser(user);
                     $rootScope.$emit('loggedin');
                     $location.url('/');
                 })
@@ -23,7 +24,7 @@ angular.module('mean.controllers.login', [])
                 });
         };
     }])
-    .controller('RegisterCtrl', ['$scope','$rootScope','$http','$location', function($scope, $rootScope, $http, $location) {
+    .controller('RegisterCtrl', ['$scope','$rootScope','$http','$location', 'AuthService', function($scope, $rootScope, $http, $location, AuthService) {
         $scope.user = {};
 
         $scope.register = function(){
@@ -41,6 +42,7 @@ angular.module('mean.controllers.login', [])
                     // authentication OK
                     $scope.registerError = 0;
                     $rootScope.user = $scope.user.fullname;
+					AuthService.setCurrentUser($scope.user.fullname);
                     $rootScope.$emit('loggedin');
                     $location.url('/');
 
