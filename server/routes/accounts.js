@@ -12,7 +12,8 @@ var authorization = require('./middlewares/authorization');
 //    next();
 //};
 
-module.exports = function(app, passport) {
+module.exports = function(app) {
+//module.exports = function(app, passport) {
 
     //app.get('/logout', accounts.signout);
     app.get('/accounts/me', accounts.me);

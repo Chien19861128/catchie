@@ -48,8 +48,8 @@ exports.create = function(req, res) {
                     status: 500
                 });
             } else {
-			    var simpleSplit = req.body.simple.split("-");
-                if (account.name == simpleSplit[0] && simpleSplit.length==3) {
+			    var simpleSplit = req.body.simple.split('-');
+                if (account.name === simpleSplit[0] && simpleSplit.length===3) {
 				    product.save(function(err) {
                         if (err) {
                             return res.send('users/signup', {
@@ -111,7 +111,6 @@ exports.destroy = function(req, res) {
  * Show an product
  */
 exports.show = function(req, res) {
-    console.log('[show][accountName] ' + accountName);
     res.jsonp(req.product);
 };
 
@@ -171,8 +170,8 @@ exports.accountAll = function(req, res) {
             } else {
 			    var queryString;
 				
-			    var simpleSplit = req.params.productSimple.split("-");
-                if (account.name == simpleSplit[0]) {
+			    var simpleSplit = req.params.productSimple.split('-');
+                if (account.name === simpleSplit[0]) {
 				    queryString = {
 		                              simple: new RegExp('^'+req.params.productSimple),
                                       is_discoverable: true
@@ -183,7 +182,7 @@ exports.accountAll = function(req, res) {
                                   };
 				}
 				
-				if (simpleSplit.length==3) {
+				if (simpleSplit.length===3) {
                     Product
                         .findOne(queryString).sort('-simple').exec(function(err, product) {
                             if (err) {

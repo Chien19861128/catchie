@@ -6,6 +6,31 @@
 var mongoose = require('mongoose'),
     Schema = mongoose.Schema;
 
+var PurchasableProductSchema = new Schema({
+    _simple: {
+        type: String,
+        required: true
+    },
+    category: {
+        type: String,
+        required: true
+    },
+    agreed_price: {
+        type: Number,
+        required: true
+    },
+});
+
+var CartItemSchema = new Schema({
+    _simple: {
+        type: String,
+        required: true
+    },
+    quantity: {
+        type: Number,
+        required: true
+    },
+});
 
 /**
  * Purchasable Schema
@@ -33,42 +58,11 @@ var PurchasableSchema = new Schema({
         type: Date,
         default: Date.now
     },
-	rule: [RuleSchema],
-	purchasable_product: [PurchasableProductsSchema],
-	cart_item: [CartItemSchema],
-});
-
-var RuleSchema = new Schema({
-    trigger: {
-        type: String,
-        required: true
-    },
-    action: {
-        type: String,
-        required: true
-    }
-});
-
-var PurchasableProductSchema = new Schema({
-    _product: {
-        type: String,
-        required: true
-    },
-    agreed_price: {
-        type: Number,
-        required: true
-    },
-});
-
-var CartItemSchema = new Schema({
-    _simple: {
-        type: String,
-        required: true
-    },
-    quantity: {
-        type: Number,
-        required: true
-    },
+    rules: [{
+        type: String
+    }],
+	purchasable_products: [PurchasableProductSchema],
+	cart_items: [CartItemSchema],
 });
 
 /**

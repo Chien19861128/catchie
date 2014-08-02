@@ -19,6 +19,7 @@ module.exports = function(app) {
     app.post('/purchasables', authorization.requiresLogin, purchasables.create);
     app.put('/purchasables/:vendorName-:purchasableName', authorization.requiresLogin, hasAuthorization, purchasables.update);
     app.post('/purchasables/:vendorName-:purchasableName/cart/', authorization.requiresLogin, hasAuthorization, purchasables.addCartItem);
+    app.put('/purchasables/:vendorName-:purchasableName/cart/', authorization.requiresLogin, hasAuthorization, purchasables.updateCartItems);
     //app.put('/purchasables/:vendorName-:purchasableName/checkout/:username', authorization.requiresLogin, hasAuthorization, purchasables.update);
     app.del('/purchasables/:vendorName-:purchasableName', authorization.requiresLogin, hasAuthorization, purchasables.destroy);
 

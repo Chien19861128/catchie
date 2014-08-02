@@ -78,6 +78,7 @@ exports.create = function(req, res, next) {
         }
         //res.status(200);
 		res.jsonp(user);
+        next();
     });
 };
 
